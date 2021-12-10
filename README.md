@@ -50,8 +50,8 @@ mutation {
 ### What would I have done with more time
 
 - Firstly, I would like to have gotten the enums working properly. I was making progress with it, and given more time, I would have gotten it working, but due to time constraints, that's one element I was not able to complete.
-- With more time, I would like to expand on the database, creating users with their desired temperature and temp units saved to their account, thereby allowing a user to simply log in and see exactly the data they want to see without having to continuously set the temp and unit. At the moment, if this were a live GraphQL API, it would only work with one temperature and unit type at a time.
-- I would have liked to figure out a better way to resolve the data that is returned in the query. At the moment, it runs several loops, so is inefficient. I feel there is a better way to accomplish this task than running - at most - 2 loops.
+- With more time, I would like to expand on the database, creating users with their desired temperature and temp units saved to their account, thereby allowing a user to simply log in and see exactly the data they want to see without having to continuously set the temp and unit. At the moment, if this were a live GraphQL API, it would only work with one temperature and unit type at a time. Another alternative could be to store the hotness settings as a cookie in the browser, or as a session token, thereby eliminating a need to store any data in a database.
+- I would have liked to figure out a better way to resolve the data that is returned in the query. At the moment, it runs several loops, so not as efficient as I feel it could be. I feel there is a better way to accomplish this task than running - at most - 2 loops.
 
 ### Other
 

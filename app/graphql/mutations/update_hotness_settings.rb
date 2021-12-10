@@ -1,13 +1,12 @@
 module Mutations
   class UpdateHotnessSettings < BaseMutation
-    # TODO: define return fields
     field :hotness_setting, Types::HotnessSettingType, null: false
+    field :errors, [String], null: true
 
-    # TODO: define arguments
+    # FIXME: change integer to enum
     argument :units, Integer, required: true
     argument :temp, Float, required: false
 
-    # TODO: define resolve method
     def resolve(units:, temp:nil)
       setting = HotnessSetting.last
       puts temp
