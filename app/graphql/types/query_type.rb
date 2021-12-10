@@ -27,8 +27,9 @@ module Types
 
       response = HTTP.get(url)
       weather = response.parse(:json)["list"]
+      puts weather
       cities = []
-      unfiltered_cities = parse_object(weather)
+      unfiltered_cities = weather
       if hot==nil && feels_like==nil
         cities = unfiltered_cities
       elsif hot!=nil && feels_like==nil
@@ -49,7 +50,7 @@ module Types
           end
         end
       end
-      cities
+      parse_object(cities)
     end
 
     def parse_object(cities)
