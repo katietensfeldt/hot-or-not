@@ -1,10 +1,10 @@
 module Types
   class OneDayWeatherType < Types::BaseObject
-    field :feelsLike, Float, null: false
-    field :groundLevel, Integer, null: true
+    field :feels_like, Float, null: false
+    field :ground_level, Integer, null: true
     field :hot, Boolean, null: false
     field :temp, Float, null: false
-    field :tempMax, Float, null: false
-    field :tempMin, Float, null: false
+    field :temp_max, Float, null: false
+    field :temp_min, Float, null: false
   end
 end

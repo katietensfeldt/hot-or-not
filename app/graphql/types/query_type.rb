@@ -7,10 +7,10 @@ module Types
     field :hot_or_not_cities_weather, [CityWeatherOneDayType], "Returns all cities that are hot or not", null: false do
       argument :name, String, required: true
       argument :hot, Boolean, required: false
+      argument :feels_like, Boolean, required: false
     end
    
-    def hot_or_not_cities_weather(name:, hot: nil)
-      #TODO: Figure out how to input temp types in place of 'imperial'
+    def hot_or_not_cities_weather(name:, hot: nil, feels_like: nil)
       hot_temp = HotnessSetting.last.temp
       set_unit = HotnessSetting.last.units
 
@@ -25,24 +25,57 @@ module Types
 
       url = "https://api.openweathermap.org/data/2.5/find?q=#{name}&appid=98eb6d082601d7acc75401f1e7b77bc3#{unit}"
 
-      puts "HERE'S THE URL: #{url}"
       response = HTTP.get(url)
       weather = response.parse(:json)["list"]
       cities = []
-      if hot==nil
-        cities = weather
-      else
-        weather.each do |city|
-          # TODO: Figure out how to pass hot or not temp value
+      unfiltered_cities = parse_object(weather)
+      if hot==nil && feels_like==nil
+        cities = unfiltered_cities
+      elsif hot!=nil && feels_like==nil
+        unfiltered_cities.each do |city|
           if hot==true && city["main"]["temp"]>=hot_temp
             cities << city
           elsif hot==false && city["main"]["temp"]<=hot_temp
+            cities << city
+          end
+        end
+      elsif hot==nil && feels_like!=nil
+        unfiltered_cities.each do |city|
+          if hot==true && city["main"]["feels_like"]>=hot_temp
+            cities << city
+          elsif hot==false && city["main"]["feels_like"]<=hot_temp
             cities << city
           else
           end
         end
       end
       cities
+    end
+
+    def parse_object(cities)
+      city_array = []
+      hot_temp = HotnessSetting.last.temp
+
+      cities.each do |city|
+        city_object = {
+          city: {
+            coordinates: city["coord"],
+            country: city["sys"]["country"],
+            id: city["id"],
+            name: city["name"],
+          },
+          weather: {
+            feels_like: city["main"]["feels_like"],
+            temp: city["main"]["temp"],
+            temp_max: city["main"]["temp_max"],
+            temp_min: city["main"]["temp_min"],
+            hot: city["main"]["temp"] >= hot_temp,
+          }
+        }
+        city_array << city_object
+      end
+
+      return city_array
     end
   end
 end
