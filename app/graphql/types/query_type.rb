@@ -23,7 +23,7 @@ module Types
         unit = ''
       end
 
-      url = "https://api.openweathermap.org/data/2.5/find?q=#{name}&appid=98eb6d082601d7acc75401f1e7b77bc3#{unit}"
+      url = "https://api.openweathermap.org/data/2.5/find?q=#{name}&appid=#{Rails.application.credentials.open_weather}#{unit}"
 
       response = HTTP.get(url)
       weather = response.parse(:json)["list"]
